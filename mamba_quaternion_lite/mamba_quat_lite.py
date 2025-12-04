@@ -81,10 +81,11 @@ class ParallelScan(torch.autograd.Function):
             # A[t] = A[t] * A[t-stride]
             A_scan[:, indices] = A_scan[:, indices] * A_scan[:, indices - stride]
 
-            # b[t] = A[t] * b[t-stride] + b[t]
+            # b[t] = A[t-stride] * b[t-stride] + b[t]
+            # Note: on utilise A avant la mise à jour (indices - stride)
             b_scan[:, indices] = (
-                A_scan[:, indices - stride:indices - stride + len(indices)].unsqueeze(-1) *
-                b_scan[:, indices - stride:indices - stride + len(indices)]
+                A_scan[:, indices - stride].unsqueeze(-1) *
+                b_scan[:, indices - stride]
             ) + b_scan[:, indices]
 
         # Phase descendante (calcul des états finaux)
