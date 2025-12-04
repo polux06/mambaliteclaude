@@ -3,3 +3,7 @@ tokenizers>=0.13.0
 datasets>=2.14.0
 tqdm>=4.65.0
 numpy>=1.24.0
+
+# Optional: for ultra-optimized kernels
+# Uncomment to enable Triton kernels
+# triton>=2.0.0
